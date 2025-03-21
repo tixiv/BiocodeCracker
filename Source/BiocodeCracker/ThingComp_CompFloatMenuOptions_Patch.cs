@@ -1,46 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
-using UnityEngine;
 using HarmonyLib;
 using RimWorld;
 using Verse.AI;
 
 namespace Tixiv_BiocodeCracker
 {
-    public class Command_UseWeapon : Command_Action
+    public class MyMod : Mod
     {
-        public ThingWithComps weapon;
-
-        public Command_UseWeapon(ThingWithComps weapon)
+        public MyMod(ModContentPack content) : base(content)
         {
-            this.weapon = weapon;
-            defaultLabel = "Use Weapon";  // The label that will show in the right-click menu
-            defaultDesc = "Right-click to use this weapon.";  // Description for the right-click action
+            var harmony = new Harmony("com.Tixiv_BiocodeCracker");
+            harmony.PatchAll();  // This applies all Harmony patches in the mod
         }
-
-        public override void ProcessInput(Event ev)
-        {
-            base.ProcessInput(ev);
-            // Trigger your custom Job when the player clicks the option.
-            StartUseWeaponJob();
-        }
-
-        private void StartUseWeaponJob()
-        {
-            // Here you would want to create a job for the colonist to use the weapon (you'll likely need a JobDriver here).
-            // This is a basic example that would call your custom logic.
-            Log.Message("Using weapon: " + weapon.Label);
-        }
-    }
-
-    [DefOf]
-    public static class Tixiv_BiocodeCracker_DefOf
-    {
-        public static JobDef InsertInBiocodeCracker;
     }
 
     [HarmonyPatch(typeof(ThingComp), "CompFloatMenuOptions")]
@@ -109,21 +82,4 @@ namespace Tixiv_BiocodeCracker
             }
         }
     }
-
-
-    public class BiocodeCrackerBuilding : Building
-    {
-    }
-
-    public class MyMod : Mod
-    {
-        public MyMod(ModContentPack content) : base(content)
-        {
-            var harmony = new Harmony("com.Tixiv_BiocodeCracker");
-            harmony.PatchAll();  // This applies all Harmony patches in the mod
-        }
-    }
-
-
-
 }

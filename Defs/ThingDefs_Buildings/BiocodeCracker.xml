@@ -43,6 +43,8 @@
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(0,0,-1)</interactionCellOffset>
 	<containedItemsSelectable>true</containedItemsSelectable>
+	<uiIconOffset>(0, -0.02)</uiIconOffset>
+    <uiIconScale>1.2</uiIconScale>
     <comps>
 	  <li Class="CompProperties_ThingContainer">
         <compClass>Tixiv_BiocodeCracker.CompCrackerContainer</compClass>
