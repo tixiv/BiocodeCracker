@@ -26,8 +26,8 @@ namespace Tixiv_BiocodeCracker
 
             foreach (var cracker in allCrackers)
             {
-                // TODO: if cracker useable by pawn
-                return cracker;
+                if (cracker.Empty && cracker.PowerOn)
+                    return cracker;
             }
 
             return null;
@@ -67,7 +67,7 @@ namespace Tixiv_BiocodeCracker
 
 
                             // Create the job for the pawn to use the Biocode Cracker building
-                            Job job = JobMaker.MakeJob(Tixiv_BiocodeCracker_DefOf.InsertInBiocodeCracker, thingWithComps, cb, cb);
+                            Job job = JobMaker.MakeJob(Tixiv_BiocodeCracker_DefOf.InsertInBiocodeCracker, thingWithComps, cb, cb.InteractionCell);
                             job.count = 1;
 
                             // Assign the job to the pawn
