@@ -9,6 +9,14 @@ namespace Tixiv_BiocodeCracker
         public static JobDef InsertInBiocodeCracker;
     }
 
-
+    public class foo
+    {
+        public void bar()
+        {
+            CompMoteEmitter cme;
+        
+        }
+    
+    }
 
 }

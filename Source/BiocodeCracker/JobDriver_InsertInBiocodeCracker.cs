@@ -15,7 +15,7 @@ namespace Tixiv_BiocodeCracker
         private const TargetIndex CrackerCellInd = TargetIndex.C;
 
         private Thing Item { get { return this.job.GetTarget(ItemIndex).Thing; } }
-        private Thing Cracker { get { return this.job.GetTarget(CrackerInd).Thing; } }
+        private BiocodeCrackerBuilding Cracker { get { return this.job.GetTarget(CrackerInd).Thing as BiocodeCrackerBuilding; } }
         private Thing CrackerCell { get { return this.job.GetTarget(CrackerCellInd).Thing; } }
 
 
@@ -50,6 +50,10 @@ namespace Tixiv_BiocodeCracker
             yield return Toils_Haul.DepositHauledThingInContainer(TargetIndex.B, TargetIndex.A, delegate
             {
                 job.GetTarget(TargetIndex.A).Thing.def.soundDrop.PlayOneShot(new TargetInfo(job.GetTarget(TargetIndex.B).Cell, pawn.Map));
+                if (Cracker != null)
+                    Cracker.Start();
+                else
+                    Log.Warning("JobDriver_InsertInBiocodeCracker: Executed on target that is no BioCodeCrackerBuilding.");
             });
         }
     }
