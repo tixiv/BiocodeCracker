@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThingDef ParentName="BuildingBase">
+    <defName>TixivBiocodeCracker</defName>
+    <label>biocode cracker</label>
+    <description>A device that will crack the biocoding of any biocoded item that is inserted. The supercomputer that does the code cracking needs a lot of power and creates a lot of heat. The process takes a few days.</description>
+	<thingClass>Tixiv_BiocodeCracker.BiocodeCrackerBuilding</thingClass>
+    <canOverlapZones>false</canOverlapZones>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.3</fillPercent>
+    <graphicData>
+      <texPath>Things/Building/Production/SubcoreEncoder</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,2)</drawSize>
+      <shadowData>
+        <volume>(3, 2, 1.9)</volume>
+      </shadowData>
+    </graphicData>
+	<drawerType>MapMeshAndRealTime</drawerType>
+	<tickerType>Normal</tickerType>
+    <altitudeLayer>Building</altitudeLayer>
+    <building>
+      <ai_chillDestination>false</ai_chillDestination>
+    </building>
+    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <designationCategory>Misc</designationCategory>
+    <uiOrder>2430</uiOrder>
+    <statBases>
+      <MaxHitPoints>200</MaxHitPoints>
+      <WorkToBuild>8000</WorkToBuild>
+      <Mass>25</Mass>
+      <Flammability>0.5</Flammability>
+    </statBases>
+    <size>(3,2)</size>
+    <costList>
+      <Plasteel>100</Plasteel>
+	  <Gold>30</Gold>
+      <ComponentSpacer>8</ComponentSpacer>
+    </costList>
+    <researchPrerequisites>
+      <li>BasicMechtech</li>
+    </researchPrerequisites>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
+	<containedItemsSelectable>true</containedItemsSelectable>
+    <comps>
+	  <li Class="CompProperties_ThingContainer">
+        <compClass>Tixiv_BiocodeCracker.CompCrackerContainer</compClass>
+        <containedThingOffset>(0,0,0)</containedThingOffset>
+        <stackLimit>1</stackLimit>
+      </li>
+	  <li Class="CompProperties_MoteEmitter">
+        <perRotationMotes>
+          <li>Mote_SubcoreEncoderNorth</li>
+          <li>Mote_SubcoreEncoderEast</li>
+          <li>Mote_SubcoreEncoderSouth</li>
+          <li>Mote_SubcoreEncoderEast</li>
+        </perRotationMotes>
+        <offsetNorth>(0, 0, -0.34)</offsetNorth>
+        <offsetSouth>(0, 0, 0.66)</offsetSouth>
+        <offsetWest>(0.575, 0, 0.24)</offsetWest>
+        <offsetEast>(-0.575, 0, 0.24)</offsetEast>
+        <useParentRotation>true</useParentRotation>
+      </li>
+      <li Class="CompProperties_Power">
+        <compClass>CompPowerTrader</compClass>
+        <basePowerConsumption>50</basePowerConsumption>
+      </li>
+      <li Class="CompProperties_Flickable"/>
+    </comps>
+    <placeWorkers>
+      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
+    </placeWorkers>
+  </ThingDef>
+</Defs>

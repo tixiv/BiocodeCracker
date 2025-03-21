@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+	<name>Biocode Cracker</name>
+	<author>Tixiv</author>
+	<url></url>
+	<packageId>Tixiv.BiocodeCracker</packageId>
+	<supportedVersions>
+		<li>1.5</li>
+	</supportedVersions>
+	<description>Adds a biocode cracking machine. It will crack the biocoding on any biocoded weapon in a few days making it a non biocoded weapon. Of course the integrated supercomputers are quite power hungry an generate a lot of heat.</description>
+	<modDependencies>
+        <li>
+            <packageId>brrainz.harmony</packageId>
+            <displayName>Harmony</displayName>
+			<downloadUrl>https://github.com/pardeike/HarmonyRimWorld</downloadUrl>
+			<steamWorkshopUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2009463077</steamWorkshopUrl>
+        </li>
+    </modDependencies>
+</ModMetaData>
