@@ -60,10 +60,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="BiocodeCrackerBuilding.cs" />
     <Compile Include="CompCrackerContainer.cs" />
     <Compile Include="JobDriver_InsertInBiocodeCracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThingComp_CompFloatMenuOptions_Patch.cs" />
+    <Compile Include="Tixiv_BiocodeCracker_DefOf.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
