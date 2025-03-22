@@ -227,7 +227,9 @@ namespace Tixiv_BiocodeCracker
         {
             if (sustainerWorking == null || sustainerWorking.Ended)
             {
-                sustainerWorking = SoundDefOf.GeneExtractor_Working.TrySpawnSustainer(SoundInfo.InMap(this, MaintenanceType.PerTick));
+                sustainerWorking = Tixiv_BiocodeCracker_DefOf.SubcoreEncoder_Working.TrySpawnSustainer(SoundInfo.InMap(this, MaintenanceType.PerTick));
+
+                // SubcoreEncoder_Working
             }
             else
             {

@@ -7,16 +7,6 @@ namespace Tixiv_BiocodeCracker
     public static class Tixiv_BiocodeCracker_DefOf
     {
         public static JobDef InsertInBiocodeCracker;
+        public static SoundDef SubcoreEncoder_Working;
     }
-
-    public class foo
-    {
-        public void bar()
-        {
-            CompMoteEmitter cme;
-        
-        }
-    
-    }
-
 }
