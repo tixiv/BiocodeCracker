@@ -18,7 +18,10 @@ namespace Tixiv_BiocodeCracker
         private CompCrackerContainer cachedContainerComp;
 
         [Unsaved(false)]
-        private CompMoteEmitterCustom cachedmoteComp;
+        private CompMoteEmitterCustom cachedMoteComp;
+
+        [Unsaved(false)]
+        private CompHeatPusher cachedHeatComp;
 
         [Unsaved(false)]
         private Sustainer sustainerWorking;
@@ -32,7 +35,7 @@ namespace Tixiv_BiocodeCracker
 
         private const int TicksToExtract = 1000;
 
-        public bool Working => ticksRemaining >= 0;
+        public bool Working => ticksRemaining > 0;
 
         private CompPowerTrader PowerTraderComp
         {
@@ -63,12 +66,24 @@ namespace Tixiv_BiocodeCracker
         {
             get
             {
-                if (cachedmoteComp == null)
+                if (cachedMoteComp == null)
                 {
-                    cachedmoteComp = this.TryGetComp<CompMoteEmitterCustom>();
+                    cachedMoteComp = this.TryGetComp<CompMoteEmitterCustom>();
                 }
 
-                return cachedmoteComp;
+                return cachedMoteComp;
+            }
+        }
+        private CompHeatPusher HeatPusherComp
+        {
+            get
+            {
+                if (cachedHeatComp == null)
+                {
+                    cachedHeatComp = this.TryGetComp<CompHeatPusher>();
+                }
+
+                return cachedHeatComp;
             }
         }
 
@@ -168,21 +183,42 @@ namespace Tixiv_BiocodeCracker
                     }
                 };
 
-            if (DebugSettings.ShowDevGizmos && Empty)
+            if (DebugSettings.ShowDevGizmos)
             {
-                yield return new Command_Action
+                if (Empty)
                 {
-                    defaultLabel = "DEV: Fill with Weapon",
-                    action = delegate
+                    yield return new Command_Action
                     {
-                        Thing thing = CreateRandomBiocodableWeapon();
-                        if (thing != null)
+                        defaultLabel = "DEV: Fill with Weapon",
+                        action = delegate
                         {
-                            ContainerComp.innerContainer.TryAdd(thing);
-                            Start();
+                            Thing thing = CreateRandomBiocodableWeapon();
+                            if (thing != null)
+                            {
+                                ContainerComp.innerContainer.TryAdd(thing);
+                                Start();
+                            }
                         }
-                    }
-                };
+                    };
+                }
+                else
+                {
+                    yield return new Command_Action
+                    {
+                        defaultLabel = "DEV: Rotate Weapon",
+                        action = delegate
+                        {
+                            var item = ContainerComp.innerContainer[0] as Thing;
+                            if (item != null)
+                            {
+                                Rot4 rot = item.Rotation;
+                                rot.Rotate(RotationDirection.Clockwise);
+                                item.Rotation = rot;
+                            }
+
+                        }
+                    };
+                }
             }
         }
         
@@ -221,6 +257,7 @@ namespace Tixiv_BiocodeCracker
             if (this.IsHashIntervalTick(250))
             {
                 PowerTraderComp.PowerOutput = (Working ? (0f - base.PowerComp.Props.PowerConsumption) : (0f - base.PowerComp.Props.idlePowerDraw));
+                HeatPusherComp.enabled = Working;
             }
 
             if (ticksRemaining > 0 && PowerOn)
@@ -248,6 +285,12 @@ namespace Tixiv_BiocodeCracker
         public void Start()
         {
             ticksRemaining = TicksToExtract;
+
+            var item = ContainerComp.innerContainer[0] as ThingWithComps;
+            if (item != null)
+            {
+                item.Rotation = this.Rotation;
+            }
         }
 
 

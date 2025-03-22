@@ -12,19 +12,6 @@ namespace Tixiv_BiocodeCracker
 {
     class CompCrackerContainer : CompThingContainer
     {
-        public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn selPawn)
-        {
-
-            List<FloatMenuOption> options = new List<FloatMenuOption>();
-
-            options.Add(new FloatMenuOption("Remove item", () =>
-             {
-                 DropItemsOntoFloor();
-             }));
-
-            return options;
-        }
-
         public void DropItemsOntoFloor()
         {
             {

@@ -19,13 +19,6 @@ namespace Tixiv_BiocodeCracker
         private Thing CrackerCell { get { return this.job.GetTarget(CrackerCellInd).Thing; } }
 
 
-        bool ReliquaryFull()
-        {
-            // return pawn.jobs.curJob.GetTarget(TargetIndex.B).Thing.TryGetComp<CompRelicContainer>()?.Full ?? true;
-            return false;
-        }
-
-
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
             // Make sure the colonist can interact with the item and the cracker.
@@ -39,11 +32,10 @@ namespace Tixiv_BiocodeCracker
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.OnCell).FailOnDespawnedNullOrForbidden(TargetIndex.A).FailOn((Toil to) => ReliquaryFull());
-            yield return Toils_Haul.StartCarryThing(TargetIndex.A, putRemainderInQueue: false, subtractNumTakenFromJobCount: true).FailOn((Toil to) => ReliquaryFull());
-            yield return Toils_Haul.CarryHauledThingToCell(TargetIndex.C).FailOn((Toil to) => ReliquaryFull());
-            Toil toil = Toils_General.Wait(300, TargetIndex.B).WithProgressBarToilDelay(TargetIndex.B).FailOnDespawnedOrNull(TargetIndex.B)
-                .FailOn((Toil to) => ReliquaryFull());
+            yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.OnCell).FailOnDespawnedNullOrForbidden(TargetIndex.A);
+            yield return Toils_Haul.StartCarryThing(TargetIndex.A, putRemainderInQueue: false, subtractNumTakenFromJobCount: true);
+            yield return Toils_Haul.CarryHauledThingToCell(TargetIndex.C);
+            Toil toil = Toils_General.Wait(300, TargetIndex.B).WithProgressBarToilDelay(TargetIndex.B).FailOnDespawnedOrNull(TargetIndex.B);
             toil.handlingFacing = true;
             yield return toil;
 

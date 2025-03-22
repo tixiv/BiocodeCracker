@@ -71,8 +71,6 @@ namespace Tixiv_BiocodeCracker
 
         public override void Emit()
         {
-            Log.Message("Mote: Emit");
-
             if (!parent.Spawned)
             {
                 Log.Error("Thing tried spawning mote without being spawned!");
@@ -99,10 +97,6 @@ namespace Tixiv_BiocodeCracker
                 }
             }
 
-            if (mote != null)
-                Log.Message("Mote: mote = " + mote.Label);
-
-
             if (mote != null && Props.useParentRotation)
             {
                 mote.exactRotation = parent.Rotation.AsAngle;
@@ -113,10 +107,5 @@ namespace Tixiv_BiocodeCracker
                 Props.soundOnEmission.PlayOneShot(SoundInfo.InMap(parent));
             }
         }
-
-
-
-
-
     }
 }
