@@ -19,30 +19,21 @@ namespace Tixiv_BiocodeCracker
     [HarmonyPatch(typeof(ThingComp), "CompFloatMenuOptions")]
     public static class ThingComp_CompFloatMenuOptions_Patch
     {
-        public static BiocodeCrackerBuilding getCrackerBuilding(Pawn selPawn)
+        public static BiocodeCrackerBuilding getCrackerBuilding(Pawn selPawn, out bool anyCrackersOnMap)
         {
             // Get all buildings on the map
             var allCrackers = Find.CurrentMap.listerThings.AllThings.OfType<BiocodeCrackerBuilding>();
 
-            // Try to return an empty, powered cracker that is unreserved
+            anyCrackersOnMap = false;
+
             foreach (var cracker in allCrackers)
-                if (cracker.Empty && cracker.PowerOn && !cracker.Map.reservationManager.IsReserved(cracker))
+            {
+                anyCrackersOnMap = true;
+
+                if (cracker.Empty && cracker.PowerOn && !cracker.Map.reservationManager.IsReserved(cracker) && selPawn.CanReach(cracker, PathEndMode.Touch, Danger.None) && !cracker.IsForbidden(selPawn))
                     return cracker;
+            }
             
-            // Fall back to return any cracker that is empty and not reserved, we will give an appropriate menu entry for what is wrong later
-            foreach (var cracker in allCrackers)
-                if (cracker.Empty && !cracker.Map.reservationManager.IsReserved(cracker))
-                    return cracker;
-
-            // Fall back to return any empty cracker
-            foreach (var cracker in allCrackers)
-                if (cracker.Empty)
-                    return cracker;
-
-            // Fall back to return any cracker
-            foreach (var cracker in allCrackers)
-                return cracker;
-
             return null;
         }
 
@@ -61,64 +52,42 @@ namespace Tixiv_BiocodeCracker
 
                 if (thingWithComps != null && compBiocodable.Biocoded)
                 {
-                    var cb = getCrackerBuilding(selPawn);
-
-                    if (cb != null)
+                    if (selPawn.CanReach(thingWithComps, PathEndMode.Touch, Danger.None) && !thingWithComps.PositionHeld.IsForbidden(selPawn))
                     {
-                        // Create a new list of options including the existing options
-                        List<FloatMenuOption> newOptions = new List<FloatMenuOption>(__result);
+                        bool anyCrackersOnMap;
+                        var cb = getCrackerBuilding(selPawn, out anyCrackersOnMap);
 
-                        if (!cb.Empty)
+                        if (anyCrackersOnMap)
                         {
-                            newOptions.Add(new FloatMenuOption("Can't insert in biocode cracker: No empty cracker.", null));
-                        }
-                        else if (!cb.PowerOn)
-                        {
-                            newOptions.Add(new FloatMenuOption("Can't insert in biocode cracker: No powered empty cracker.", null));
-                        }
-                        else if (selPawn.Map.reservationManager.CanReserve(selPawn, thingWithComps) &&
-                                 selPawn.Map.reservationManager.CanReserve(selPawn, cb))
-                        {
-                            string optionString = "Insert " + thingWithComps.Label;
-                            if (thingWithComps.Map.reservationManager.IsReserved(thingWithComps))
+                            // Create a new list of options including the existing options
+                            List<FloatMenuOption> newOptions = new List<FloatMenuOption>(__result);
+
+                            if (cb != null)
                             {
-                                Pawn reserver;
-                                thingWithComps.Map.reservationManager.TryGetReserver(thingWithComps, null, out reserver);
-                                if (reserver != null)
-                                    optionString += "(reserved by " + reserver.Label + ")";
-                            }
+                                string optionString = "Insert " + thingWithComps.Label + " into biocode cracker";
 
-                            optionString += " into biocode cracker";
+                                newOptions.Add(new FloatMenuOption(optionString, () =>
+                                {
+                                    thingWithComps.SetForbidden(false);
 
-                            if (cb.Map.reservationManager.IsReserved(cb))
-                            {
-                                Pawn reserver;
-                                cb.Map.reservationManager.TryGetReserver(cb, null, out reserver);
-                                if (reserver != null)
-                                    optionString += "(reserved by " + reserver.Label + ")";
+                                    // Create the job for the pawn to use the Biocode Cracker building
+                                    Job job = JobMaker.MakeJob(Tixiv_BiocodeCracker_DefOf.InsertInBiocodeCracker, thingWithComps, cb, cb.InteractionCell);
+                                    job.count = 1;
+
+                                    // Assign the job to the pawn
+                                    selPawn.jobs.TryTakeOrderedJob(job);
+
+                                }));
 
                             }
-
-                            // Add your custom option to the list
-                            newOptions.Add(new FloatMenuOption(optionString, () =>
+                            else
                             {
-                                // Create the job for the pawn to use the Biocode Cracker building
-                                Job job = JobMaker.MakeJob(Tixiv_BiocodeCracker_DefOf.InsertInBiocodeCracker, thingWithComps, cb, cb.InteractionCell);
-                                job.count = 1;
+                                newOptions.Add(new FloatMenuOption("Can't insert in biocode cracker: No reachable unforbidden cracker.", null));
+                            }
 
-                                // Assign the job to the pawn
-                                selPawn.jobs.TryTakeOrderedJob(job);
-
-                            }));
-
+                            // Return the modified list of options
+                            __result = newOptions;
                         }
-                        else
-                        {
-                            newOptions.Add(new FloatMenuOption("Can't insert in biocode cracker: No reachable unforbidden cracker.", null));
-                        }
-
-                        // Return the modified list of options
-                        __result = newOptions;
                     }
                 }
             }
