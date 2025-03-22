@@ -35,7 +35,7 @@ namespace Tixiv_BiocodeCracker
             yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.OnCell).FailOnDespawnedNullOrForbidden(TargetIndex.A);
             yield return Toils_Haul.StartCarryThing(TargetIndex.A, putRemainderInQueue: false, subtractNumTakenFromJobCount: true);
             yield return Toils_Haul.CarryHauledThingToCell(TargetIndex.C);
-            Toil toil = Toils_General.Wait(300, TargetIndex.B).WithProgressBarToilDelay(TargetIndex.B).FailOnDespawnedOrNull(TargetIndex.B);
+            Toil toil = Toils_General.Wait(150, TargetIndex.B).WithProgressBarToilDelay(TargetIndex.B).FailOnDespawnedOrNull(TargetIndex.B);
             toil.handlingFacing = true;
             yield return toil;
 
