@@ -11,31 +11,31 @@ namespace Tixiv_BiocodeCracker
     [StaticConstructorOnStartup]
     public class BiocodeCrackerBuilding : Building
     {
-        [Unsaved(false)]
         private CompPowerTrader cachedPowerComp;
 
-        [Unsaved(false)]
         private CompCrackerContainer cachedContainerComp;
 
-        [Unsaved(false)]
         private CompMoteEmitterCustom cachedMoteComp;
 
-        [Unsaved(false)]
         private CompHeatPusher cachedHeatComp;
 
-        [Unsaved(false)]
         private Sustainer sustainerWorking;
-
-        [Unsaved(false)]
-        private Effecter progressBar;
 
         private static readonly Texture2D CancelIcon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
 
-        private int ticksRemaining;
+        private int willFinishAtTick = 0;
 
-        private const int TicksToCrack = 86400;
+        private bool working = false;
 
-        public bool Working => ticksRemaining > 0;
+        private const int MaxTicksToCrack = 5000;
+
+        public bool Working
+        {
+            get
+            {
+                return working;
+            }
+        }
 
         private CompPowerTrader PowerTraderComp
         {
@@ -94,11 +94,6 @@ namespace Tixiv_BiocodeCracker
         public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
         {
             sustainerWorking = null;
-            if (progressBar != null)
-            {
-                progressBar.Cleanup();
-                progressBar = null;
-            }
 
             base.DeSpawn(mode);
         }
@@ -141,24 +136,6 @@ namespace Tixiv_BiocodeCracker
                         }
                     };
                 }
-                else
-                {
-                    yield return new Command_Action
-                    {
-                        defaultLabel = "DEV: Rotate Weapon",
-                        action = delegate
-                        {
-                            var item = ContainerComp.innerContainer[0] as Thing;
-                            if (item != null)
-                            {
-                                Rot4 rot = item.Rotation;
-                                rot.Rotate(RotationDirection.Clockwise);
-                                item.Rotation = rot;
-                            }
-
-                        }
-                    };
-                }
             }
         }
         
@@ -168,25 +145,10 @@ namespace Tixiv_BiocodeCracker
             if (sustainerWorking == null || sustainerWorking.Ended)
             {
                 sustainerWorking = Tixiv_BiocodeCracker_DefOf.SubcoreEncoder_Working.TrySpawnSustainer(SoundInfo.InMap(this, MaintenanceType.PerTick));
-
-                // SubcoreEncoder_Working
             }
             else
             {
                 sustainerWorking.Maintain();
-            }
-
-            if (progressBar == null)
-            {
-                progressBar = EffecterDefOf.ProgressBarAlwaysVisible.Spawn();
-            }
-
-            progressBar.EffectTick(new TargetInfo(base.Position + IntVec3.North.RotatedBy(base.Rotation), base.Map), TargetInfo.Invalid);
-            MoteProgressBar mote = ((SubEffecter_ProgressBar)progressBar.children[0]).mote;
-            if (mote != null)
-            {
-                mote.progress = 1f - Mathf.Clamp01((float)ticksRemaining / (float)TicksToCrack);
-                mote.offsetZ = ((base.Rotation == Rot4.North) ? 0.5f : (-0.5f));
             }
 
             MoteEmitterComp.Maintain();
@@ -200,55 +162,43 @@ namespace Tixiv_BiocodeCracker
             {
                 PowerTraderComp.PowerOutput = (Working ? (0f - base.PowerComp.Props.PowerConsumption) : (0f - base.PowerComp.Props.idlePowerDraw));
                 HeatPusherComp.enabled = Working;
-            }
 
-            if (ticksRemaining > 0 && PowerOn)
-            {
-                TickEffects();
-                
-                ticksRemaining--;
-
-                // Find.TickManager.TicksGame;
-
-                if (ticksRemaining <= 0)
+                if (Working && PowerOn)
                 {
-                    Finish();
+
+                    if (Find.TickManager.TicksGame > willFinishAtTick)
+                        Finish(true);
                 }
             }
 
-
-            var moteComp = this.GetComp<CompMoteEmitterCustom>();
-            if (moteComp != null)
-            {
-                
-            }
-
+            if (Working && PowerOn)
+                TickEffects();
         }
 
         public void Start()
         {
-            ticksRemaining = TicksToCrack;
+            int ticksToCrack = Rand.Range(MaxTicksToCrack / 8, MaxTicksToCrack);
 
-            var item = ContainerComp.innerContainer[0] as ThingWithComps;
-            if (item != null)
-            {
-                item.Rotation = this.Rotation;
-            }
+            willFinishAtTick = Find.TickManager.TicksGame + ticksToCrack;
+            working = true;
         }
 
 
-        private void Finish()
+        private void Finish(bool cracked = false)
         {
-            if (ticksRemaining == 0 && !ContainerComp.Empty)
+            if (cracked)
             {
                 // Remove biocoded
 
-                var item = ContainerComp.innerContainer[0] as ThingWithComps;
+                var item = ContainerComp.ContainedThing as ThingWithComps;
                 if (item != null)
                 {
                     var compBiocodable = item.GetComp<CompBiocodable>();
                     if (compBiocodable != null)
+                    {
                         compBiocodable.UnCode();
+                        Messages.Message("The biocoding on " + item.Label + " has been cracked.", MessageTypeDefOf.PositiveEvent);
+                    }
                     else
                         Log.Warning("BiocodeCrackerBuilding: Tried to remove code from non biocodable item.");
                 }
@@ -256,20 +206,19 @@ namespace Tixiv_BiocodeCracker
                 {
                     Log.Warning("BiocodeCrackerBuilding: No ThingWithComps in container to remove biocode from.");
                 }
-
-                Messages.Message("The biocoding on " + item.Label + " has been cracked.", MessageTypeDefOf.PositiveEvent);
             }
 
             sustainerWorking = null;
-            if (progressBar != null)
-            {
-                progressBar.Cleanup();
-                progressBar = null;
-            }
-
-            ticksRemaining = 0;
+            working = false;
 
             ContainerComp.DropItemsOntoFloor();
+        }
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref willFinishAtTick, "willFinishAtTick", defaultValue: 0);
+            Scribe_Values.Look(ref working, "working", defaultValue: false);
         }
     }
 }
