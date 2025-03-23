@@ -1,0 +1,18 @@
+<Defs>
+  <ResearchProjectDef>
+    <defName>Tixiv_BiocodeCracker</defName>
+    <label>biocode cracker</label>
+    <description>Be able to build the biocode cracker which will remove the biocoding of weapons, given enough time.</description>
+    <baseCost>4000</baseCost>
+    <techLevel>Industrial</techLevel>
+    <prerequisites>
+      <li>MultiAnalyzer</li>
+    </prerequisites>
+    <requiredResearchBuilding>HiTechResearchBench</requiredResearchBuilding>
+    <requiredResearchFacilities>
+      <li>MultiAnalyzer</li>
+    </requiredResearchFacilities>
+    <researchViewX>14.00</researchViewX>
+    <researchViewY>4.70</researchViewY>
+  </ResearchProjectDef>
+</Defs>
