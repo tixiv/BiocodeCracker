@@ -31,7 +31,7 @@ namespace Tixiv_BiocodeCracker
 
         private bool working = false;
 
-        private const int MaxTicksToCrack = 5000;
+        private int MaxTicksToCrack => DebugSettings.godMode ? 5000 : 60000 * 7; // Very quick if god, otherwise it takes a week
 
         public bool Working
         {
@@ -250,9 +250,17 @@ namespace Tixiv_BiocodeCracker
                     stringBuilder.AppendLine();
                 }
 
-                string text = "Working. Guaranteed crack in " + GenDate.ToStringTicksToPeriodVague(ticksUntilGuaranteedFind);
-                stringBuilder.Append(text);
-
+                if (!DebugSettings.godMode)
+                {
+                    stringBuilder.Append("Working. Guaranteed crack in " + GenDate.ToStringTicksToPeriodVague(ticksUntilGuaranteedFind));
+                }
+                else
+                {
+                    stringBuilder.Append("Working. Guaranteed crack in " + GenDate.ToStringTicksToPeriod(ticksUntilGuaranteedFind));
+                    stringBuilder.AppendLine();
+                    stringBuilder.Append("Godmode: will crack in " + GenDate.ToStringTicksToPeriod(ticksRemaining));
+                }
+                
                 return stringBuilder.ToString();
             }
             else

@@ -14,6 +14,7 @@ namespace Tixiv_BiocodeCracker
 
         // Just some links to quickly get to the implementation of interesting thing
         public void links() {
+#if false
 
             JobDriver_DisassembleMech dm;
             JobDriver_HaulMechToCharger hm;
@@ -48,7 +49,8 @@ namespace Tixiv_BiocodeCracker
 
             ThingWithComps twc;
 
-            // GenDate;
+            GenDate.ToStringTicksToPeriod(15);
+#endif
         }
 
     }
