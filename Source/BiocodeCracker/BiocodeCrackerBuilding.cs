@@ -33,7 +33,7 @@ namespace Tixiv_BiocodeCracker
 
         private int ticksRemaining;
 
-        private const int TicksToExtract = 1000;
+        private const int TicksToCrack = 86400;
 
         public bool Working => ticksRemaining > 0;
 
@@ -245,7 +245,7 @@ namespace Tixiv_BiocodeCracker
             MoteProgressBar mote = ((SubEffecter_ProgressBar)progressBar.children[0]).mote;
             if (mote != null)
             {
-                mote.progress = 1f - Mathf.Clamp01((float)ticksRemaining / (float)TicksToExtract);
+                mote.progress = 1f - Mathf.Clamp01((float)ticksRemaining / (float)TicksToCrack);
                 mote.offsetZ = ((base.Rotation == Rot4.North) ? 0.5f : (-0.5f));
             }
 
@@ -286,7 +286,7 @@ namespace Tixiv_BiocodeCracker
 
         public void Start()
         {
-            ticksRemaining = TicksToExtract;
+            ticksRemaining = TicksToCrack;
 
             var item = ContainerComp.innerContainer[0] as ThingWithComps;
             if (item != null)
@@ -315,6 +315,8 @@ namespace Tixiv_BiocodeCracker
                 {
                     Log.Warning("BiocodeCrackerBuilding: No ThingWithComps in container to remove biocode from.");
                 }
+
+                Messages.Message("The biocoding on " + item.Label + " has been cracked.", MessageTypeDefOf.PositiveEvent);
             }
 
             sustainerWorking = null;
