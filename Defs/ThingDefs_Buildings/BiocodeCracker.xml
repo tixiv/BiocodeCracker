@@ -4,7 +4,7 @@
     <defName>TixivBiocodeCracker</defName>
     <label>biocode cracker</label>
     <description>A device that will crack the biocoding of any biocoded item that is inserted. The supercomputer that does the code cracking needs a lot of power and creates a lot of heat. The process takes a few days.</description>
-	<thingClass>Tixiv_BiocodeCracker.BiocodeCrackerBuilding</thingClass>
+    <thingClass>Tixiv_BiocodeCracker.BiocodeCrackerBuilding</thingClass>
     <canOverlapZones>false</canOverlapZones>
     <passability>PassThroughOnly</passability>
     <fillPercent>0.3</fillPercent>
@@ -16,8 +16,8 @@
         <volume>(3, 2, 1.9)</volume>
       </shadowData>
     </graphicData>
-	<drawerType>MapMeshAndRealTime</drawerType>
-	<tickerType>Normal</tickerType>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <tickerType>Normal</tickerType>
     <altitudeLayer>Building</altitudeLayer>
     <building>
       <ai_chillDestination>false</ai_chillDestination>
@@ -34,102 +34,21 @@
     <size>(3,2)</size>
     <costList>
       <Plasteel>100</Plasteel>
-	  <Gold>30</Gold>
+      <Gold>30</Gold>
       <ComponentSpacer>8</ComponentSpacer>
     </costList>
     <researchPrerequisites>
       <li>BasicMechtech</li>
     </researchPrerequisites>
-	<surfaceType>None</surfaceType>
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(0,0,-1)</interactionCellOffset>
-	<containedItemsSelectable>true</containedItemsSelectable>
-    <uiIconScale>1.2</uiIconScale>
+    <containedItemsSelectable>true</containedItemsSelectable>
     <comps>
-	  <li Class="CompProperties_ThingContainer">
+      <li Class="CompProperties_ThingContainer">
         <compClass>Tixiv_BiocodeCracker.CompCrackerContainer</compClass>
         <containedThingOffset>(0,0,0)</containedThingOffset>
         <stackLimit>1</stackLimit>
       </li>
-	  <li Class="Tixiv_BiocodeCracker.CompProperties_MoteEmitterCustom">
-        <perRotationMotes>
-          <li>Mote_SubcoreEncoderNorth</li>
-          <li>Mote_SubcoreEncoderEast</li>
-          <li>Mote_SubcoreEncoderSouth</li>
-          <li>Mote_SubcoreEncoderEast</li>
-        </perRotationMotes>
-        <offsetNorth>(0, 0, -0.34)</offsetNorth>
-        <offsetSouth>(0, 0, 0.66)</offsetSouth>
-        <offsetWest>(0.575, 0, 0.24)</offsetWest>
-        <offsetEast>(-0.575, 0, 0.24)</offsetEast>
-        <useParentRotation>true</useParentRotation>
-      </li>
-      <li Class="CompProperties_Power">
-        <compClass>CompPowerTrader</compClass>
-		<basePowerConsumption>1500</basePowerConsumption>
-        <idlePowerDraw>50</idlePowerDraw>
-		<shortCircuitInRain>true</shortCircuitInRain>
-      </li>
-      <li Class="CompProperties_HeatPusher">
-        <compClass>CompHeatPusher</compClass>
-        <heatPerSecond>150</heatPerSecond>
-      </li>
-      <li Class="CompProperties_Flickable"/>
-    </comps>
-    <placeWorkers>
-      <li>PlaceWorker_PreventInteractionSpotOverlap</li>
-    </placeWorkers>
-  </ThingDef>
-  
-  
-  <ThingDef ParentName="BenchBase">
-    <defName>SubcoreEncoder_Tixiv</defName>
-    <label>subcore encoder tixiv</label>
-    <description>A work station where a mechanitor can produce basic-tier subcores. Subcores are the brains of mechanoids, and one is required to produce any mechanoid. Basic subcores can only be used in simple basic-tier mechs.\n\nHigher tier subcores can be created by building a subcore softscanner or a subcore ripscanner.</description>
-    <thingClass>Building_WorkTable</thingClass>
-    <canOverlapZones>false</canOverlapZones>
-    <passability>PassThroughOnly</passability>
-    <fillPercent>0.3</fillPercent>
-    <drawerType>MapMeshAndRealTime</drawerType>
-	<tickerType>Normal</tickerType>
-    <graphicData>
-      <texPath>Things/Building/Production/SubcoreEncoder</texPath>
-      <graphicClass>Graphic_Multi</graphicClass>
-      <drawSize>(3,2)</drawSize>
-      <shadowData>
-        <volume>(3, 2, 1.9)</volume>
-      </shadowData>
-    </graphicData>
-    <altitudeLayer>Building</altitudeLayer>
-    <building>
-      <ai_chillDestination>false</ai_chillDestination>
-      <buildingTags>
-        <li>Biotech</li>
-      </buildingTags>
-    </building>
-    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
-    <designationCategory>Biotech</designationCategory>
-    <uiOrder>5000</uiOrder>
-    <statBases>
-      <MaxHitPoints>200</MaxHitPoints>
-      <WorkToBuild>8000</WorkToBuild>
-      <Mass>25</Mass>
-      <Flammability>0.5</Flammability>
-    </statBases>
-    <size>(3,2)</size>
-    <costList>
-      <Steel>100</Steel>
-      <ComponentIndustrial>3</ComponentIndustrial>
-    </costList>
-    <researchPrerequisites>
-      <li>BasicMechtech</li>
-    </researchPrerequisites>
-    <hasInteractionCell>true</hasInteractionCell>
-    <interactionCellOffset>(0,0,-1)</interactionCellOffset>
-    <inspectorTabs>
-      <li>ITab_Bills</li>
-    </inspectorTabs>
-    <comps>
       <li Class="Tixiv_BiocodeCracker.CompProperties_MoteEmitterCustom">
         <perRotationMotes>
           <li>Mote_SubcoreEncoderNorth</li>
@@ -145,7 +64,13 @@
       </li>
       <li Class="CompProperties_Power">
         <compClass>CompPowerTrader</compClass>
-        <basePowerConsumption>50</basePowerConsumption>
+        <basePowerConsumption>1500</basePowerConsumption>
+        <idlePowerDraw>50</idlePowerDraw>
+        <shortCircuitInRain>true</shortCircuitInRain>
+      </li>
+      <li Class="CompProperties_HeatPusher">
+        <compClass>CompHeatPusher</compClass>
+        <heatPerSecond>150</heatPerSecond>
       </li>
       <li Class="CompProperties_Flickable"/>
     </comps>
@@ -153,56 +78,6 @@
       <li>PlaceWorker_PreventInteractionSpotOverlap</li>
     </placeWorkers>
   </ThingDef>
-
   
-  
-  
-  <ThingDef ParentName="SubcoreBase">
-    <defName>SubcoreBasicTixiv</defName>
-    <label>basic subcore tixiv</label>
-    <description>The simplest possible mechanoid brain, this is a tiny psychodynamic substrate unit housing a dull subpersona. Since this is only a basic-tier subcore, it can only drive the simplest of mechanoids.\n\nLike all mechanoid subcores, it contains a subpersona with a psychic presence, albeit a very faint one.</description>
-    <graphicData>
-      <texPath>Things/Item/Resource/SubcoreBasic</texPath>
-      <graphicClass>Graphic_Single</graphicClass>
-    </graphicData>
-    <techHediffsTags>
-      <li>SubcoreBasic</li>
-    </techHediffsTags>
-    <statBases>
-      <WorkToMake>3000</WorkToMake>
-    </statBases>
-    <recipeMaker>
-      <researchPrerequisite>BasicMechtech</researchPrerequisite>
-      <workSpeedStat>SubcoreEncodingSpeed</workSpeedStat>
-      <workSkill>Crafting</workSkill>
-      <recipeUsers>
-        <li>SubcoreEncoder_Tixiv</li>
-      </recipeUsers>
-      <unfinishedThingDef>UnfinishedSubcore</unfinishedThingDef>
-      <soundWorking>SubcoreEncoder_Working</soundWorking>
-    </recipeMaker>
-    <costList>
-      <Steel>5</Steel>
-    </costList>
-  </ThingDef>
-
-  <WorkGiverDef>
-    <defName>DoBillsSubcoreEncoderTixiv</defName>
-    <label>make things at tixiv's subcore encoder</label>
-    <giverClass>WorkGiver_DoBill</giverClass>
-    <workType>Smithing</workType>
-    <priorityInType>220</priorityInType>
-    <fixedBillGiverDefs>
-      <li>SubcoreEncoder_Tixiv</li>
-    </fixedBillGiverDefs>
-    <verb>work</verb>
-    <gerund>working at</gerund>
-    <requiredCapacities>
-      <li>Manipulation</li>
-    </requiredCapacities>
-    <prioritizeSustains>true</prioritizeSustains>
-    <canBeDoneByMechs>false</canBeDoneByMechs>
-  </WorkGiverDef>
-
 </Defs>
 

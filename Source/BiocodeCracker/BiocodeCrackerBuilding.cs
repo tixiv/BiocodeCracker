@@ -10,7 +10,7 @@ using Verse.Sound;
 namespace Tixiv_BiocodeCracker
 {
     [StaticConstructorOnStartup]
-    public class BiocodeCrackerBuilding : Building
+    public class BiocodeCrackerBuilding : Building_WorkTable
     {
         private CompPowerTrader cachedPowerComp;
 

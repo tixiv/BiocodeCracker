@@ -37,6 +37,8 @@ namespace Tixiv_BiocodeCracker
             Building b;
             Building_GeneExtractor bge;
             Building_MechGestator bmg;
+            Building_WorkTable bwt;
+
 
             ThingDef td;
 
