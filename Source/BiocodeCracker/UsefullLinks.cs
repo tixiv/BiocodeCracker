@@ -43,6 +43,10 @@ namespace Tixiv_BiocodeCracker
             CompProperties_ThingContainer tc;
             CompProperties_Power cpp;
             CompProperties_TempControl cptc;
+
+            ThingWithComps twc;
+
+            // GenDate;
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -23,7 +24,10 @@ namespace Tixiv_BiocodeCracker
 
         private static readonly Texture2D CancelIcon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel");
 
-        private int willFinishAtTick = 0;
+        private int ticksRemaining = 0;
+        private int ticksUntilGuaranteedFind = 0;
+
+        private int lastGameTickSeen = 0;
 
         private bool working = false;
 
@@ -163,12 +167,24 @@ namespace Tixiv_BiocodeCracker
                 PowerTraderComp.PowerOutput = (Working ? (0f - base.PowerComp.Props.PowerConsumption) : (0f - base.PowerComp.Props.idlePowerDraw));
                 HeatPusherComp.enabled = Working;
 
+                int thisGameTick = Find.TickManager.TicksGame;
+                
+                // initialization after load
+                if (lastGameTickSeen == 0)
+                    lastGameTickSeen = thisGameTick;
+
+                int deltaTicks = thisGameTick - lastGameTickSeen;
+
                 if (Working && PowerOn)
                 {
+                    ticksRemaining -= deltaTicks;
+                    ticksUntilGuaranteedFind -= deltaTicks;
 
-                    if (Find.TickManager.TicksGame > willFinishAtTick)
+                    if (ticksRemaining <= 0)
                         Finish(true);
                 }
+
+                lastGameTickSeen = thisGameTick;
             }
 
             if (Working && PowerOn)
@@ -177,9 +193,9 @@ namespace Tixiv_BiocodeCracker
 
         public void Start()
         {
-            int ticksToCrack = Rand.Range(MaxTicksToCrack / 8, MaxTicksToCrack);
+            ticksRemaining = Rand.Range(MaxTicksToCrack / 8, MaxTicksToCrack);
+            ticksUntilGuaranteedFind = MaxTicksToCrack;
 
-            willFinishAtTick = Find.TickManager.TicksGame + ticksToCrack;
             working = true;
         }
 
@@ -217,8 +233,32 @@ namespace Tixiv_BiocodeCracker
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look(ref willFinishAtTick, "willFinishAtTick", defaultValue: 0);
+            Scribe_Values.Look(ref ticksRemaining, "ticksRemaining", defaultValue: 0);
+            Scribe_Values.Look(ref ticksUntilGuaranteedFind, "ticksUntilGuaranteedFind", defaultValue: 0);
             Scribe_Values.Look(ref working, "working", defaultValue: false);
+        }
+
+        public override string GetInspectString()
+        {
+            if (Working && PowerOn)
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append(base.GetInspectString());
+
+                if (stringBuilder.Length > 0)
+                {
+                    stringBuilder.AppendLine();
+                }
+
+                string text = "Working. Guaranteed crack in " + GenDate.ToStringTicksToPeriodVague(ticksUntilGuaranteedFind);
+                stringBuilder.Append(text);
+
+                return stringBuilder.ToString();
+            }
+            else
+            {
+                return base.GetInspectString();
+            }
         }
     }
 }
