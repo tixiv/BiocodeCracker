@@ -24,7 +24,7 @@
     </building>
     <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
     <designationCategory>Misc</designationCategory>
-    <uiOrder>2430</uiOrder>
+    <uiOrder>2800</uiOrder>
     <statBases>
       <MaxHitPoints>200</MaxHitPoints>
       <WorkToBuild>8000</WorkToBuild>
