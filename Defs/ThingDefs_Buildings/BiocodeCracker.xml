@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <ThingDef ParentName="BuildingBase">
+  <ThingDef ParentName="BenchBase">
     <defName>TixivBiocodeCracker</defName>
     <label>biocode cracker</label>
     <description>A device that will crack the biocoding of any biocoded item that is inserted. The supercomputer that does the code cracking needs a lot of power and creates a lot of heat. The process takes a few days.</description>

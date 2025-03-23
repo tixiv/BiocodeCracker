@@ -64,6 +64,8 @@
     <Compile Include="CompCrackerContainer.cs" />
     <Compile Include="CompMoteEmitterCustom.cs" />
     <Compile Include="CompPropertiesMoteEmitterCustom.cs" />
+    <Compile Include="UtilCreateBiocodedWeapon.cs" />
+    <Compile Include="DebugActions.cs" />
     <Compile Include="JobDriver_InsertInBiocodeCracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThingComp_CompFloatMenuOptions_Patch.cs" />
