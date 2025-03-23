@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-  <ThingDef ParentName="BenchBase">
+  <ThingDef ParentName="BuildingBase">
     <defName>TixivBiocodeCracker</defName>
     <label>biocode cracker</label>
     <description>A device that will crack the biocoding of any biocoded item that is inserted. The supercomputer that does the code cracking needs a lot of power and creates a lot of heat. The process takes a few days.</description>
@@ -38,7 +38,7 @@
       <ComponentSpacer>8</ComponentSpacer>
     </costList>
     <researchPrerequisites>
-      <li>BasicMechtech</li>
+      <li>Tixiv_BiocodeCracker</li>
     </researchPrerequisites>
     <hasInteractionCell>true</hasInteractionCell>
     <interactionCellOffset>(0,0,-1)</interactionCellOffset>
@@ -70,7 +70,7 @@
       </li>
       <li Class="CompProperties_HeatPusher">
         <compClass>CompHeatPusher</compClass>
-        <heatPerSecond>150</heatPerSecond>
+        <heatPerSecond>105</heatPerSecond>
       </li>
       <li Class="CompProperties_Flickable"/>
     </comps>
