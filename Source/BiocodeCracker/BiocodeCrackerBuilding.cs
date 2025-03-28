@@ -121,26 +121,6 @@ namespace Tixiv_BiocodeCracker
                         Finish();
                     }
                 };
-
-            if (DebugSettings.ShowDevGizmos)
-            {
-                if (Empty)
-                {
-                    yield return new Command_Action
-                    {
-                        defaultLabel = "DEV: Fill with Weapon",
-                        action = delegate
-                        {
-                            Thing thing = UtilCreateBiocodedWeapon.CreateRandomBiocodedWeapon();
-                            if (thing != null)
-                            {
-                                ContainerComp.innerContainer.TryAdd(thing);
-                                Start();
-                            }
-                        }
-                    };
-                }
-            }
         }
         
 
