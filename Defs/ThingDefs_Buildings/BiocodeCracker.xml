@@ -50,7 +50,7 @@
     <containedItemsSelectable>true</containedItemsSelectable>
     <comps>
       <li Class="CompProperties_ThingContainer">
-        <compClass>CompThingContainer</compClass>
+        <compClass>Tixiv_BiocodeCracker.CompCrackerContainer</compClass>
         <containedThingOffset>(0,0,0)</containedThingOffset>
         <stackLimit>1</stackLimit>
       </li>

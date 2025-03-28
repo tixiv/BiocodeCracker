@@ -235,11 +235,11 @@ namespace Tixiv_BiocodeCracker
 
                 if (!DebugSettings.godMode)
                 {
-                    stringBuilder.Append("Working. Guaranteed crack in " + GenDate.ToStringTicksToPeriodVague(ticksUntilGuaranteedFind));
+                    stringBuilder.Append("Working: Guaranteed crack in " + GenDate.ToStringTicksToPeriodVague(ticksUntilGuaranteedFind));
                 }
                 else
                 {
-                    stringBuilder.Append("Working. Guaranteed crack in " + GenDate.ToStringTicksToPeriod(ticksUntilGuaranteedFind));
+                    stringBuilder.Append("Working: Guaranteed crack in " + GenDate.ToStringTicksToPeriod(ticksUntilGuaranteedFind));
                     stringBuilder.AppendLine();
                     stringBuilder.Append("Godmode: will crack in " + GenDate.ToStringTicksToPeriod(ticksRemaining));
                 }
