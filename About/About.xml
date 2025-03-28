@@ -2,7 +2,7 @@
 <ModMetaData>
     <name>Biocode Cracker</name>
     <author>Tixiv</author>
-    <url></url>
+    <url>https://github.com/tixiv/BiocodeCracker</url>
     <packageId>Tixiv.BiocodeCracker</packageId>
     <supportedVersions>
         <li>1.5</li>
