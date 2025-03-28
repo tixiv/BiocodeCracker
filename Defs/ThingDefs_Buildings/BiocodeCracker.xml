@@ -22,7 +22,7 @@
     <building>
       <ai_chillDestination>false</ai_chillDestination>
     </building>
-    <constructionSkillPrerequisite>4</constructionSkillPrerequisite>
+    <constructionSkillPrerequisite>8</constructionSkillPrerequisite>
     <designationCategory>Misc</designationCategory>
     <uiOrder>2800</uiOrder>
     <statBases>
