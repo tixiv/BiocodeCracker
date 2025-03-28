@@ -49,7 +49,8 @@
         <containedThingOffset>(0,0,0)</containedThingOffset>
         <stackLimit>1</stackLimit>
       </li>
-      <li Class="Tixiv_BiocodeCracker.CompProperties_MoteEmitterCustom">
+      <li Class="CompProperties_MoteEmitter">
+        <compClass>Tixiv_BiocodeCracker.CompMoteEmitterCustom</compClass>
         <perRotationMotes>
           <li>Mote_SubcoreEncoderNorth</li>
           <li>Mote_SubcoreEncoderEast</li>

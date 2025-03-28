@@ -63,7 +63,6 @@
     <Compile Include="BiocodeCrackerBuilding.cs" />
     <Compile Include="CompCrackerContainer.cs" />
     <Compile Include="CompMoteEmitterCustom.cs" />
-    <Compile Include="CompPropertiesMoteEmitterCustom.cs" />
     <Compile Include="UsefullLinks.cs" />
     <Compile Include="UtilCreateBiocodedWeapon.cs" />
     <Compile Include="DebugActions.cs" />

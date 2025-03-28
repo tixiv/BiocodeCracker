@@ -155,7 +155,7 @@ namespace Tixiv_BiocodeCracker
                 sustainerWorking.Maintain();
             }
 
-            MoteEmitterComp.Maintain();
+            MoteEmitterComp.CustomMaintain();
         }
 
         public override void Tick()

@@ -14,98 +14,28 @@ namespace Tixiv_BiocodeCracker
 {
     class CompMoteEmitterCustom : CompMoteEmitter
     {
-        private CompProperties_MoteEmitterCustom Props => (CompProperties_MoteEmitterCustom)props;
-
         public override void CompTick()
         {
-            if (!parent.Spawned)
-            {
-                return;
-            }
+            // Need to override this function in CompMoteEmitter because that
+            // one otherwise runs into a null reference exception becuase of some
+            // crazy skyfaller check that is in there?!?
 
-            CompPowerTrader comp = parent.GetComp<CompPowerTrader>();
-            if (comp != null && !comp.PowerOn)
-            {
-                return;
-            }
+            // We don't need to do anything in here anyway since the mote emitter is
+            // activated by calling CustomMaintain() on it from BiocodeCrackerBuilding::Tick()
+        }
 
-            CompSendSignalOnCountdown comp2 = parent.GetComp<CompSendSignalOnCountdown>();
-            if (comp2 != null && comp2.ticksLeft <= 0)
-            {
-                return;
-            }
 
-            CompInitiatable comp3 = parent.GetComp<CompInitiatable>();
-            if (comp3 != null && !comp3.Initiated)
-            {
-                return;
-            }
+        public void CustomMaintain()
+        {
+            // create mote if necessary. This is the only part that was done in
+            // CompMoteEmitter::CompTick() that we actually need to do
 
-            if (Props.emissionInterval != -1 && !Props.maintain)
-            {
-                if (ticksSinceLastEmitted >= Props.emissionInterval)
-                {
-                    Emit();
-                    ticksSinceLastEmitted = 0;
-                }
-                else
-                {
-                    ticksSinceLastEmitted++;
-                }
-            }
-            else if (mote == null || mote.Destroyed)
+            if (mote == null || mote.Destroyed)
             {
                 Emit();
             }
 
-            if (mote != null && !mote.Destroyed)
-            {
-                if (Props.maintain)
-                {
-                    Log.Message("Mote: Maintain");
-                    Maintain();
-                }
-            }
-        }
-
-
-        public override void Emit()
-        {
-            if (!parent.Spawned)
-            {
-                Log.Error("Thing tried spawning mote without being spawned!");
-                return;
-            }
-
-            Vector3 vector = Props.offset + Props.RotationOffset(parent.Rotation);
-            if (Props.offsetMin != Vector3.zero || Props.offsetMax != Vector3.zero)
-            {
-                vector = Props.EmissionOffset;
-            }
-
-            ThingDef thingDef = Props.RotationMote(parent.Rotation) ?? Props.mote;
-            if (typeof(MoteAttached).IsAssignableFrom(thingDef.thingClass))
-            {
-                mote = MoteMaker.MakeAttachedOverlay(parent, thingDef, vector);
-            }
-            else
-            {
-                Vector3 vector2 = parent.DrawPos + vector;
-                if (vector2.InBounds(parent.Map))
-                {
-                    mote = MoteMaker.MakeStaticMote(vector2, parent.Map, thingDef);
-                }
-            }
-
-            if (mote != null && Props.useParentRotation)
-            {
-                mote.exactRotation = parent.Rotation.AsAngle;
-            }
-
-            if (!Props.soundOnEmission.NullOrUndefined())
-            {
-                Props.soundOnEmission.PlayOneShot(SoundInfo.InMap(parent));
-            }
+            Maintain();
         }
     }
 }
