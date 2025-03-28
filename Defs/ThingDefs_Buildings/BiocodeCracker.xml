@@ -6,6 +6,11 @@
     <description>A device that will crack the biocoding of any biocoded item that is inserted. The supercomputer that does the code cracking needs a lot of power and creates a lot of heat. The process takes a few days.</description>
     <thingClass>Tixiv_BiocodeCracker.BiocodeCrackerBuilding</thingClass>
     <canOverlapZones>false</canOverlapZones>
+    <minifiedDef>MinifiedThing</minifiedDef>
+    <thingCategories>
+      <li>BuildingsProduction</li>
+    </thingCategories>
+    <terrainAffordanceNeeded>Medium</terrainAffordanceNeeded>
     <passability>PassThroughOnly</passability>
     <fillPercent>0.3</fillPercent>
     <graphicData>

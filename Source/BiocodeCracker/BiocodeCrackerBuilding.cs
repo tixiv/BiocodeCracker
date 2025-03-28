@@ -97,8 +97,7 @@ namespace Tixiv_BiocodeCracker
 
         public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
         {
-            sustainerWorking = null;
-
+            Finish();
             base.DeSpawn(mode);
         }
 
