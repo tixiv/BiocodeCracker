@@ -16,8 +16,6 @@ namespace Tixiv_BiocodeCracker
 
         private Thing Item { get { return this.job.GetTarget(ItemIndex).Thing; } }
         private BiocodeCrackerBuilding Cracker { get { return this.job.GetTarget(CrackerInd).Thing as BiocodeCrackerBuilding; } }
-        private Thing CrackerCell { get { return this.job.GetTarget(CrackerCellInd).Thing; } }
-
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
@@ -32,16 +30,18 @@ namespace Tixiv_BiocodeCracker
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.OnCell).FailOnDespawnedNullOrForbidden(TargetIndex.A);
-            yield return Toils_Haul.StartCarryThing(TargetIndex.A, putRemainderInQueue: false, subtractNumTakenFromJobCount: true);
-            yield return Toils_Haul.CarryHauledThingToCell(TargetIndex.C);
-            Toil toil = Toils_General.Wait(150, TargetIndex.B).WithProgressBarToilDelay(TargetIndex.B).FailOnDespawnedOrNull(TargetIndex.B);
+            // Mostly copied from JobDriver_InstallRelic
+
+            yield return Toils_Goto.GotoThing(ItemIndex, PathEndMode.OnCell).FailOnDespawnedNullOrForbidden(ItemIndex);
+            yield return Toils_Haul.StartCarryThing(ItemIndex, putRemainderInQueue: false, subtractNumTakenFromJobCount: true);
+            yield return Toils_Haul.CarryHauledThingToCell(CrackerCellInd);
+            Toil toil = Toils_General.Wait(150, CrackerInd).WithProgressBarToilDelay(CrackerInd).FailOnDespawnedOrNull(CrackerInd);
             toil.handlingFacing = true;
             yield return toil;
 
-            yield return Toils_Haul.DepositHauledThingInContainer(TargetIndex.B, TargetIndex.A, delegate
+            yield return Toils_Haul.DepositHauledThingInContainer(CrackerInd, ItemIndex, delegate
             {
-                job.GetTarget(TargetIndex.A).Thing.def.soundDrop.PlayOneShot(new TargetInfo(job.GetTarget(TargetIndex.B).Cell, pawn.Map));
+                Item.def.soundDrop.PlayOneShot(new TargetInfo(job.GetTarget(CrackerInd).Cell, pawn.Map));
                 if (Cracker != null)
                     Cracker.Start();
                 else

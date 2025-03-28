@@ -14,7 +14,7 @@ namespace Tixiv_BiocodeCracker
     {
         private CompPowerTrader cachedPowerComp;
 
-        private CompCrackerContainer cachedContainerComp;
+        private CompThingContainer cachedContainerComp;
 
         private CompMoteEmitterCustom cachedMoteComp;
 
@@ -53,13 +53,13 @@ namespace Tixiv_BiocodeCracker
                 return cachedPowerComp;
             }
         }
-        private CompCrackerContainer ContainerComp
+        private CompThingContainer ContainerComp
         {
             get
             {
                 if (cachedContainerComp == null)
                 {
-                    cachedContainerComp = this.TryGetComp<CompCrackerContainer>();
+                    cachedContainerComp = this.TryGetComp<CompThingContainer>();
                 }
 
                 return cachedContainerComp;
@@ -122,7 +122,6 @@ namespace Tixiv_BiocodeCracker
                     }
                 };
         }
-        
 
         private void TickEffects()
         {
@@ -179,7 +178,6 @@ namespace Tixiv_BiocodeCracker
             working = true;
         }
 
-
         private void Finish(bool cracked = false)
         {
             if (cracked)
@@ -207,7 +205,13 @@ namespace Tixiv_BiocodeCracker
             sustainerWorking = null;
             working = false;
 
-            ContainerComp.DropItemsOntoFloor();
+            DropItemsOntoFloor();
+        }
+
+        private void DropItemsOntoFloor()
+        {
+            if (this.Map != null)                    
+                ContainerComp.innerContainer.TryDropAll(this.Position, this.Map, ThingPlaceMode.Near);
         }
 
         public override void ExposeData()

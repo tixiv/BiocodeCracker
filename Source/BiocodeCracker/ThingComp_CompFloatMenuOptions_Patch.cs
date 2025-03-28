@@ -7,9 +7,9 @@ using Verse.AI;
 
 namespace Tixiv_BiocodeCracker
 {
-    public class MyMod : Mod
+    public class Tixiv_BiocodeCracker : Mod
     {
-        public MyMod(ModContentPack content) : base(content)
+        public Tixiv_BiocodeCracker(ModContentPack content) : base(content)
         {
             var harmony = new Harmony("com.Tixiv_BiocodeCracker");
             harmony.PatchAll();  // This applies all Harmony patches in the mod
@@ -48,46 +48,45 @@ namespace Tixiv_BiocodeCracker
             if (compBiocodable != null)
             {
                 // Get the ThingWithComps (the object that this Comp is attached to)
-                ThingWithComps thingWithComps = __instance.parent as ThingWithComps;
+                ThingWithComps biocodableItem = __instance.parent as ThingWithComps;
 
-                if (thingWithComps != null && compBiocodable.Biocoded)
+                if (biocodableItem != null && compBiocodable.Biocoded &&
+                    selPawn.CanReach(biocodableItem, PathEndMode.Touch, Danger.None) &&
+                    !biocodableItem.PositionHeld.IsForbidden(selPawn))
                 {
-                    if (selPawn.CanReach(thingWithComps, PathEndMode.Touch, Danger.None) && !thingWithComps.PositionHeld.IsForbidden(selPawn))
+                    bool anyCrackersOnMap;
+                    var crackerBulding = getCrackerBuilding(selPawn, out anyCrackersOnMap);
+
+                    if (anyCrackersOnMap)
                     {
-                        bool anyCrackersOnMap;
-                        var cb = getCrackerBuilding(selPawn, out anyCrackersOnMap);
+                        // Create a new list of options including the existing options
+                        List<FloatMenuOption> newOptions = new List<FloatMenuOption>(__result);
 
-                        if (anyCrackersOnMap)
+                        if (crackerBulding != null)
                         {
-                            // Create a new list of options including the existing options
-                            List<FloatMenuOption> newOptions = new List<FloatMenuOption>(__result);
+                            string optionString = "Insert " + biocodableItem.Label + " into biocode cracker";
 
-                            if (cb != null)
+                            newOptions.Add(new FloatMenuOption(optionString, () =>
                             {
-                                string optionString = "Insert " + thingWithComps.Label + " into biocode cracker";
+                                biocodableItem.SetForbidden(false);
 
-                                newOptions.Add(new FloatMenuOption(optionString, () =>
-                                {
-                                    thingWithComps.SetForbidden(false);
+                                // Create the job for the pawn to use the Biocode Cracker building
+                                Job job = JobMaker.MakeJob(Tixiv_BiocodeCracker_DefOf.InsertInBiocodeCracker, biocodableItem, crackerBulding, crackerBulding.InteractionCell);
+                                job.count = 1;
 
-                                    // Create the job for the pawn to use the Biocode Cracker building
-                                    Job job = JobMaker.MakeJob(Tixiv_BiocodeCracker_DefOf.InsertInBiocodeCracker, thingWithComps, cb, cb.InteractionCell);
-                                    job.count = 1;
+                                // Assign the job to the pawn
+                                selPawn.jobs.TryTakeOrderedJob(job);
 
-                                    // Assign the job to the pawn
-                                    selPawn.jobs.TryTakeOrderedJob(job);
+                            }));
 
-                                }));
-
-                            }
-                            else
-                            {
-                                newOptions.Add(new FloatMenuOption("Can't insert in biocode cracker: No reachable unforbidden cracker.", null));
-                            }
-
-                            // Return the modified list of options
-                            __result = newOptions;
                         }
+                        else
+                        {
+                            newOptions.Add(new FloatMenuOption("Can't insert in biocode cracker: No reachable powered cracker that is not in use.", null));
+                        }
+
+                        // Return the modified list of options
+                        __result = newOptions;
                     }
                 }
             }
