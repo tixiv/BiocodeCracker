@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<LanguageData>
+  <Tixiv_BiocodeCracker.label>Biokodeknacker</Tixiv_BiocodeCracker.label>
+  <Tixiv_BiocodeCracker.description>Erforsche wie man den Biokodeknacker baut, ein Gerät was die Biokodierung eines bliebigen Gegenstandes entfernen kann wenn man ihm genügend Zeit gibt.</Tixiv_BiocodeCracker.description>
+  
+  <!-- For the schematics about it -->
+  <Tixiv_BiocodeCracker.generalRules.rulesStrings>
+	<li>subject->Kryptographie</li>
+
+    <li>subject_story->Schutzmechanismen studierte und Arten diese zu umgehen</li>
+    <li>subject_story->herausfand, wie man Biokodierung bricht um die Waffen des Gegeners gegen ihn zu verwenden</li>
+    <li>subject_story->sich schließlich auf Profit fokussierte, und das Prototypengerät an eine Bande Piraten verkaufte</li>
+
+    <li>subject_gerund_acc->den Biokodeknacker</li>
+    <li>subject_gerund_dat->des Biokodeknackers</li>
+  </Tixiv_BiocodeCracker.generalRules.rulesStrings>
+</LanguageData>

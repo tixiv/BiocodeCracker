@@ -64,9 +64,7 @@ namespace Tixiv_BiocodeCracker
 
                         if (crackerBulding != null)
                         {
-                            string optionString = "Insert " + biocodableItem.Label + " into biocode cracker";
-
-                            newOptions.Add(new FloatMenuOption(optionString, () =>
+                            newOptions.Add(new FloatMenuOption("BCC_InsertIntoBiocodeCracker".Translate(biocodableItem.Label), () =>
                             {
                                 biocodableItem.SetForbidden(false);
 
@@ -82,7 +80,7 @@ namespace Tixiv_BiocodeCracker
                         }
                         else
                         {
-                            newOptions.Add(new FloatMenuOption("Can't insert in biocode cracker: No reachable powered cracker that is not in use.", null));
+                            newOptions.Add(new FloatMenuOption("BCC_CantInsertIntoBiocodeCracker".Translate(biocodableItem.Label), null));
                         }
 
                         // Return the modified list of options

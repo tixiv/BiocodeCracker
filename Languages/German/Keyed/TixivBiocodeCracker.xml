@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<LanguageData>
+  <BCC_CancelCracking>Knacken abbrechen</BCC_CancelCracking>
+  <BCC_CancelCracking_desc>Bricht das Knacken der Kodierung ab.</BCC_CancelCracking_desc>
+  <BCC_BiocodingCracked>Die Kodierung von {0} wurde geknackt.</BCC_BiocodingCracked>
+  <BCC_WorkingGuaranteedCrackIn>Arbeitet: Garantierter Bruch in {0}</BCC_WorkingGuaranteedCrackIn>
+  <BCC_GodmodeWillCrackIn>Gott Modus: Wird geknackt in {0}</BCC_GodmodeWillCrackIn>
+  
+  <BCC_InsertIntoBiocodeCracker>Lege {0} in Biokodeknacker ein</BCC_InsertIntoBiocodeCracker>
+  <BCC_CantInsertIntoBiocodeCracker>Kann {0} nicht in Biokodeknacker einlegen: Keine erreichbaren Knacker die Strom haben und nicht in Benutzung sind.</BCC_CantInsertIntoBiocodeCracker>  
+</LanguageData>

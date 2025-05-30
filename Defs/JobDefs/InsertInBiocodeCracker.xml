@@ -2,7 +2,7 @@
 	<JobDef>
 		<defName>InsertInBiocodeCracker</defName>
 		<driverClass>Tixiv_BiocodeCracker.JobDriver_InsertInBiocodeCracker</driverClass>
-		<reportString>Carrying TargetA to biocode cracker.</reportString>
+		<reportString>inserting TargetA in biocode cracker.</reportString>
 		<allowOpportunisticPrefix>true</allowOpportunisticPrefix>
 	</JobDef>
 </Defs>

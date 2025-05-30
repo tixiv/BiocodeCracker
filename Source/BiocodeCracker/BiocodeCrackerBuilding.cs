@@ -112,8 +112,8 @@ namespace Tixiv_BiocodeCracker
                 // Create a new gizmo (button) to drop the items
                 yield return new Command_Action
                 {
-                    defaultLabel = "Cancel cracking",  // Text to show on the button
-                    defaultDesc = "Cancels cracking the biocoding on this item", // Tooltip text
+                    defaultLabel = "BCC_CancelCracking".Translate(),  // Text to show on the button
+                    defaultDesc = "BCC_CancelCracking_desc".Translate(), // Tooltip text
                     icon = CancelIcon,
                     action = () =>
                     {
@@ -190,7 +190,7 @@ namespace Tixiv_BiocodeCracker
                     if (compBiocodable != null)
                     {
                         compBiocodable.UnCode();
-                        Messages.Message("The biocoding on " + item.Label + " has been cracked.", MessageTypeDefOf.PositiveEvent);
+                        Messages.Message("BCC_BiocodingCracked".Translate(item.Label), MessageTypeDefOf.PositiveEvent);
                     }
                     else
                         Log.Warning("BiocodeCrackerBuilding: Tried to remove code from non biocodable item.");
@@ -235,13 +235,13 @@ namespace Tixiv_BiocodeCracker
 
                 if (!DebugSettings.godMode)
                 {
-                    stringBuilder.Append("Working: Guaranteed crack in " + GenDate.ToStringTicksToPeriodVague(ticksUntilGuaranteedFind));
+                    stringBuilder.Append("BCC_WorkingGuaranteedCrackIn".Translate(GenDate.ToStringTicksToPeriodVague(ticksUntilGuaranteedFind)));
                 }
                 else
                 {
-                    stringBuilder.Append("Working: Guaranteed crack in " + GenDate.ToStringTicksToPeriod(ticksUntilGuaranteedFind));
+                    stringBuilder.Append("BCC_WorkingGuaranteedCrackIn".Translate(GenDate.ToStringTicksToPeriodVague(ticksUntilGuaranteedFind)));
                     stringBuilder.AppendLine();
-                    stringBuilder.Append("Godmode: will crack in " + GenDate.ToStringTicksToPeriod(ticksRemaining));
+                    stringBuilder.Append("BCC_GodmodeWillCrackIn".Translate(GenDate.ToStringTicksToPeriod(ticksRemaining)));
                 }
                 
                 return stringBuilder.ToString();

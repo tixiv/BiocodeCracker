@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<LanguageData>
+  <BCC_CancelCracking>Cancel cracking</BCC_CancelCracking>
+  <BCC_CancelCracking_desc>Cancels cracking the biocoding on this item.</BCC_CancelCracking_desc>
+  <BCC_BiocodingCracked>The biocoding on {0} has been cracked.</BCC_BiocodingCracked>
+  <BCC_WorkingGuaranteedCrackIn>Working: Guaranteed crack in {0}</BCC_WorkingGuaranteedCrackIn>
+  <BCC_GodmodeWillCrackIn>Godmode: will crack in {0}</BCC_GodmodeWillCrackIn>
+  
+  <BCC_InsertIntoBiocodeCracker>Insert {0} into biocode cracker</BCC_InsertIntoBiocodeCracker>
+  <BCC_CantInsertIntoBiocodeCracker>Can't insert {0} into biocode cracker: No reachable powered cracker that is not in use.</BCC_CantInsertIntoBiocodeCracker>  
+</LanguageData>
