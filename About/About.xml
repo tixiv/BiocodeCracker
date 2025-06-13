@@ -6,6 +6,7 @@
     <packageId>Tixiv.BiocodeCracker</packageId>
     <supportedVersions>
         <li>1.5</li>
+        <li>1.6</li>
     </supportedVersions>
 <description>
 Adds a biocode cracking machine. The machine will crack the biocoding on any biocoded item in a few days, rendering it a normal non biocoded item. Of course the integrated supercomputers are quite power hungry an generate a lot of heat. It is also not cheap to build. You can find the "biocode cracker" in the misc buildings category once you research it. The research project is located after the multi analyzer in the main research tab. The biocode cracker machine uses the graphics, sound and animation from the subcore encoder, so this mod does require the Biotech DLC. Maybe someone wants to hook me up with some custom assets, then I could remove that requirement ;-)

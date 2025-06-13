@@ -136,15 +136,30 @@ namespace Tixiv_BiocodeCracker
             MoteEmitterComp.CustomMaintain();
         }
 
+
+        private void TickIntervalInternal(int delta)
+        {
+            PowerTraderComp.PowerOutput = (Working ? (0f - base.PowerComp.Props.PowerConsumption) : (0f - base.PowerComp.Props.idlePowerDraw));
+            HeatPusherComp.enabled = Working;
+
+            if (Working && PowerOn)
+            {
+                ticksRemaining -= delta;
+                ticksUntilGuaranteedFind -= delta;
+
+                if (ticksRemaining <= 0)
+                    Finish(true);
+            }
+        }
+
+#if RIMWORLD_1_5
+
         public override void Tick()
         {
             base.Tick();
 
             if (this.IsHashIntervalTick(250))
             {
-                PowerTraderComp.PowerOutput = (Working ? (0f - base.PowerComp.Props.PowerConsumption) : (0f - base.PowerComp.Props.idlePowerDraw));
-                HeatPusherComp.enabled = Working;
-
                 int thisGameTick = Find.TickManager.TicksGame;
                 
                 // initialization after load
@@ -152,22 +167,31 @@ namespace Tixiv_BiocodeCracker
                     lastGameTickSeen = thisGameTick;
 
                 int deltaTicks = thisGameTick - lastGameTickSeen;
-
-                if (Working && PowerOn)
-                {
-                    ticksRemaining -= deltaTicks;
-                    ticksUntilGuaranteedFind -= deltaTicks;
-
-                    if (ticksRemaining <= 0)
-                        Finish(true);
-                }
-
                 lastGameTickSeen = thisGameTick;
+
+                TickIntervalInternal(deltaTicks);
             }
 
             if (Working && PowerOn)
                 TickEffects();
         }
+
+#elif RIMWORLD_1_6
+
+        protected override void Tick()
+        {
+            base.Tick();
+
+            if (Working && PowerOn)
+                TickEffects();
+        }
+        protected override void TickInterval(int delta)
+        {
+            base.TickInterval(delta);
+
+            TickIntervalInternal(delta);
+        }
+#endif
 
         public void Start()
         {
